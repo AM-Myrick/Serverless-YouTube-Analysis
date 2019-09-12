@@ -1,3 +1,10 @@
+TODO: implement support for secrets in prod
+TODO: add function which takes in an array of video ids and updates each one with statistics
+TODO: add function which runs all video titles through gender package
+TODO: add function which runs all videos by channel title and gender through sentiment package and put to Sentiments table
+TODO: add function to update video genders
+TODO: add function get all sentiments
+
 # Serverless Node.js Starter
 
 A Serverless starter that adds ES7 syntax, serverless-offline, linting, environment variables, and unit test support. Part of the [Serverless Stack](http://serverless-stack.com) guide.
