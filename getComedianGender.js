@@ -6,7 +6,7 @@ export function main(event, context, callback) {
   dynamoDbLib.call("scan", {TableName: 'Videos'})
     .then(res => {
       for (let item of res.Items) {
-        getComedianGenders(item);
+        item.comedianGender ? null : getComedianGender(item);
       }
     })
     .catch(err => {
@@ -14,10 +14,27 @@ export function main(event, context, callback) {
       console.log({ status: false });
     });
 
-  async function getComedianGenders(video) {
-    const {videoId, channelId, channelName, title, viewCount, likeCount, dislikeCount, createdAt, updatedAt} = video;
+  function getComedianGender(video) {
+    const {title} = video;
     const genderDict = {'M': 'Male', 'F': 'Female'};
-    const comedianGender = gender.guess(title).gender === null ? 'Unknown' : genderDict[gender.guess(title).gender];
+    let comedianGender = gender.guess(title).gender === null ? 'Unknown' : genderDict[gender.guess(title).gender];
+
+    if (comedianGender === 'Unknown') {
+      const titleArray = title.split(" ");
+      for (let word of titleArray) {
+        if (gender.guess(word).gender === "M" || gender.guess(word).gender === "F") {
+          comedianGender = genderDict[gender.guess(word).gender];
+          break;
+        }
+      }
+    }
+
+    video.comedianGender = comedianGender;
+    putComedianGender(video);
+  }
+
+  async function putComedianGender(video) {
+    const {videoId, channelId, channelName, title, viewCount, likeCount, dislikeCount, comedianGender, createdAt, updatedAt} = video;
     const params = {
       TableName: "Videos",
       Item: {
@@ -28,9 +45,9 @@ export function main(event, context, callback) {
         viewCount,
         likeCount,
         dislikeCount,
+        comedianGender,
         createdAt,
-        updatedAt,
-        comedianGender
+        updatedAt
       }
     };
 
