@@ -89,3 +89,14 @@ functions:
           path: comments/sentiments
           method: post
           cors: true
+
+  # Defines an HTTP API endpoint that calls the main function in postChannelSentiments.js
+  # - path: url path is /channels/sentiments
+  # - method: post request
+  postChannelSentiments:
+    handler: postChannelSentiments.main
+    events:
+      - http:
+          path: channels/sentiments
+          method: post
+          cors: true
