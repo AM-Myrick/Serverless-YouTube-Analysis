@@ -1,11 +1,11 @@
 import * as dynamoDbLib from "./libs/dynamodb-lib";
 import { success, failure } from "./libs/response-lib";
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
-const axios = require('axios');
+const axios = require("axios");
 
 export function main(event, context, callback) {
   // gets all videos in Videos table
-  dynamoDbLib.call("scan", {TableName: 'Videos'})
+  dynamoDbLib.call("scan", {TableName: "Videos"})
     .then(res => {
       for (let item of res.Items) {
         getVideoStatistics(item);
@@ -27,7 +27,7 @@ export function main(event, context, callback) {
       const likeCount = item.statistics.likeCount;
       const dislikeCount = item.statistics.dislikeCount;
       const updatedAt = Date.now();
-      
+
       const params = {
         TableName: "Videos",
         Item: {
