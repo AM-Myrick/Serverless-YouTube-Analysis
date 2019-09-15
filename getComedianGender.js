@@ -6,6 +6,7 @@ export function main(event, context, callback) {
   dynamoDbLib.call("scan", {TableName: 'Videos'})
     .then(res => {
       for (let item of res.Items) {
+        // if the video has already been run through this lambda, it won't run again
         item.comedianGender ? null : getComedianGender(item);
       }
     })
@@ -19,6 +20,7 @@ export function main(event, context, callback) {
     const genderDict = {'M': 'Male', 'F': 'Female'};
     let comedianGender = gender.guess(title).gender === null ? 'Unknown' : genderDict[gender.guess(title).gender];
 
+    // runs each individual word through the gender package if comedianGender wasn't determined
     if (comedianGender === 'Unknown') {
       const titleArray = title.split(" ");
       for (let word of titleArray) {
@@ -33,8 +35,11 @@ export function main(event, context, callback) {
     putComedianGender(video);
   }
 
+  // updates Videos table with comedianGender
   async function putComedianGender(video) {
-    const {videoId, channelId, channelName, title, viewCount, likeCount, dislikeCount, comedianGender, createdAt, updatedAt} = video;
+    const {videoId, channelId, channelName, title, viewCount, likeCount, dislikeCount, comedianGender, createdAt} = video;
+    const updatedAt = Date.now();
+
     const params = {
       TableName: "Videos",
       Item: {

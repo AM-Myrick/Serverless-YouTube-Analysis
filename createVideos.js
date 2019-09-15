@@ -3,8 +3,10 @@ import { success, failure } from "./libs/response-lib";
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const axios = require('axios');
 const maxResults = 10; //maximum results given by YouTube API per get request
+// const resultsLimit = 500;
 
 export function main(event, context, callback) {
+  // gets all channels in Channels table
   dynamoDbLib.call("scan", {TableName: 'Channels'})
     .then(res => {
       for (let item of res.Items) {
@@ -15,14 +17,14 @@ export function main(event, context, callback) {
       console.log(err);
       console.log({ status: false });
     });
-
-  function getChannelVideoIds(channelName, channelId, nextPageToken = '') {
+  
+  // gets maxResults latest videos from the given channel, running recursively if resultsLimit > videosCollected
+  function getChannelVideoIds(channelName, channelId, nextPageToken = '', videosCollected = 0) {
     axios.get(`https://www.googleapis.com/youtube/v3/search?key=${YOUTUBE_API_KEY}&channelId=${channelId}&part=snippet,id&order=date&maxResults=${maxResults}&pageToken=${nextPageToken}`)
       .then(async (res) => {
-        // if (res.data.items.length < resultsLimit) {
-        //   getChannelVideoIds(channelName, channelId, res.data.nextPageToken)
+        // if (videosCollected < resultsLimit) {
+        //   getChannelVideoIds(channelName, channelId, res.data.nextPageToken, videosCollected += maxResults);
         // }
-        // getVideoInfo(channelName)
 
         for (let item of res.data.items) {
           const videoId = item.id.videoId;

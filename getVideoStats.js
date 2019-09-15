@@ -4,6 +4,7 @@ const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const axios = require('axios');
 
 export function main(event, context, callback) {
+  // gets all videos in Videos table
   dynamoDbLib.call("scan", {TableName: 'Videos'})
     .then(res => {
       for (let item of res.Items) {
@@ -15,6 +16,7 @@ export function main(event, context, callback) {
       console.log({ status: false });
     });
 
+  // gets views, likes, and dislikes for all videos and updates Videos table
   function getVideoStatistics(video) {
     const {videoId, channelId, channelName, title, createdAt} = video;
 
@@ -25,6 +27,7 @@ export function main(event, context, callback) {
       const likeCount = item.statistics.likeCount;
       const dislikeCount = item.statistics.dislikeCount;
       const updatedAt = Date.now();
+      
       const params = {
         TableName: "Videos",
         Item: {
