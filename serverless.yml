@@ -100,3 +100,14 @@ functions:
           path: channels/sentiments
           method: post
           cors: true
+  
+  # Defines an HTTP API endpoint that calls the main function in getSentiments.js
+  # - path: url path is /sentiments
+  # - method: get request
+  getSentiments:
+    handler: getSentiments.main
+    events:
+      - http:
+          path: sentiments
+          method: get
+          cors: true
