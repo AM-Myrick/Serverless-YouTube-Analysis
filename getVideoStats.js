@@ -16,11 +16,7 @@ export function main(event, context, callback) {
     });
 
   function getVideoStatistics(video) {
-    const videoId = video.videoId;
-    const channelId = video.channelId;
-    const channelName = video.channelName;
-    const title = video.title;
-    const createdAt = video.createdAt;
+    const {videoId, channelId, channelName, title, createdAt} = video;
 
     axios.get(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`)
     .then(async (res) => {
