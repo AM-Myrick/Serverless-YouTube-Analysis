@@ -45,3 +45,13 @@ functions:
           path: videos
           method: get
           cors: true
+  # Defines an HTTP API endpoint that calls the main function in getVideoStats.js
+  # - path: url path is /videos/stats
+  # - method: GET request
+  getVideoStats:
+    handler: getVideoStats.main
+    events:
+      - http:
+          path: videos/stats
+          method: get
+          cors: true
