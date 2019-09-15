@@ -55,3 +55,14 @@ functions:
           path: videos/stats
           method: get
           cors: true
+
+  # Defines an HTTP API endpoint that calls the main function in getComedianGender.js
+  # - path: url path is /videos/gender
+  # - method: GET request
+  getComedianGender:
+    handler: getComedianGender.main
+    events:
+      - http:
+          path: videos/gender
+          method: get
+          cors: true
