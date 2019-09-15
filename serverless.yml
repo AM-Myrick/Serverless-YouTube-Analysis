@@ -78,3 +78,14 @@ functions:
           path: videos/comments
           method: get
           cors: true
+
+  # Defines an HTTP API endpoint that calls the main function in getCommentSentiment.js
+  # - path: url path is /comments/sentiments
+  # - method: GET request
+  getCommentSentiment:
+    handler: getCommentSentiment.main
+    events:
+      - http:
+          path: comments/sentiments
+          method: get
+          cors: true
