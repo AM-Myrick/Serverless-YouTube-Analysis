@@ -35,57 +35,57 @@ provider:
       Resource: "arn:aws:dynamodb:us-east-2:*:*"
 
 functions:
-  # Defines an HTTP API endpoint that calls the main function in createVideos.js
+  # Defines an HTTP API endpoint that calls the main function in postVideos.js
   # - path: url path is /videos
-  # - method: GET request
-  createVideos:
-    handler: createVideos.main
+  # - method: post request
+  postVideos:
+    handler: postVideos.main
     events:
       - http:
           path: videos
-          method: get
+          method: post
           cors: true
 
-  # Defines an HTTP API endpoint that calls the main function in getVideoStats.js
+  # Defines an HTTP API endpoint that calls the main function in postVideoStats.js
   # - path: url path is /videos/stats
-  # - method: GET request
-  getVideoStats:
-    handler: getVideoStats.main
+  # - method: post request
+  postVideoStats:
+    handler: postVideoStats.main
     events:
       - http:
           path: videos/stats
-          method: get
+          method: post
           cors: true
 
-  # Defines an HTTP API endpoint that calls the main function in getComedianGender.js
+  # Defines an HTTP API endpoint that calls the main function in postComedianGender.js
   # - path: url path is /videos/gender
-  # - method: GET request
-  getComedianGender:
-    handler: getComedianGender.main
+  # - method: post request
+  postComedianGender:
+    handler: postComedianGender.main
     events:
       - http:
           path: videos/gender
-          method: get
+          method: post
           cors: true
 
-  # Defines an HTTP API endpoint that calls the main function in getVideoComments.js
+  # Defines an HTTP API endpoint that calls the main function in postVideoComments.js
   # - path: url path is /videos/comments
-  # - method: GET request
-  getVideoComments:
-    handler: getVideoComments.main
+  # - method: post request
+  postVideoComments:
+    handler: postVideoComments.main
     events:
       - http:
           path: videos/comments
-          method: get
+          method: post
           cors: true
 
-  # Defines an HTTP API endpoint that calls the main function in getCommentSentiment.js
+  # Defines an HTTP API endpoint that calls the main function in postCommentSentiment.js
   # - path: url path is /comments/sentiments
-  # - method: GET request
-  getCommentSentiment:
-    handler: getCommentSentiment.main
+  # - method: post request
+  postCommentSentiment:
+    handler: postCommentSentiment.main
     events:
       - http:
           path: comments/sentiments
-          method: get
+          method: post
           cors: true
